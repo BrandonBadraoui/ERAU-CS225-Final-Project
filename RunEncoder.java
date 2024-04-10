@@ -34,6 +34,7 @@ public class RunEncoder {
         Alphabet al = new Alphabet();
         CaesarCipher cc = new CaesarCipher();
 //        PermutationCipher pc = new PermutationCipher();
+        HillCipher hc = new HillCipher();
         run.selectedCipher = run.getCipherUserInput("\nHello, welcome to the Badraoui Encryption Software!\n" + "What Cipher would you like to select?" + "\n1.Caesar Cipher (Weak)\n2.Permutation Cipher (Moderate)\n3.Hill Cipher (Strong)");
         run.setTypeImport(run.getTypeImport("\nWould you like to type a string or import a file?\n1.Type a string\n2.Import a file"));
         if (run.typeImport == 1) {
@@ -54,10 +55,14 @@ public class RunEncoder {
 //                char[] CipheredText = al.numToLetter(pc.getpCipherInt());
 //                System.out.print("Encrypted String: ");
 //                System.out.println(CipheredText);
-//            }
-//            if (run.selectedCipher == 3) {
-//
-//            }
+            //}
+            if (run.selectedCipher == 3) {
+                al.runAlpha(run.typeImport, run.getUserInput());
+                hc.runCipher(al.getStringAsNum());
+                char[] CipheredText = al.numToLetter(hc.gethCipher());
+                System.out.print("Encrypted String: ");
+                System.out.println(CipheredText);
+            }
         } else if (run.typeImport == 2) {
             if (run.selectedCipher == 1) {
                 al.runAlpha(run.typeImport, "");
@@ -74,9 +79,14 @@ public class RunEncoder {
 //                System.out.println(CipheredText);
 //
 //            }
-//            if (run.selectedCipher == 3) {
-//
-//            }
+            if (run.selectedCipher == 3) {
+                al.runAlpha(run.typeImport, "");
+                hc.runCipher(al.getStringAsNum());
+                char[] CipheredText = al.numToLetter(hc.gethCipher());
+                System.out.print("Encrypted String: ");
+                System.out.println(CipheredText);
+
+            }
         }
 
     }
