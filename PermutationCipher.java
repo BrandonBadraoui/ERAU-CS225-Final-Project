@@ -1,26 +1,33 @@
 /***********************************
- * Filename: PermutationCipher
+ * Filename: XORCipher
  * Author: Brandon Badraoui
  * Collaborators:
- * Created: 3/25/24
- * Modified: 3/29/24
- * Purpose: will hold the math and computation for the permutation cipher
- *
- *
+ * Created: 4/11/24
+ * Modified: 4/11/24
+ * Purpose: will hold the math and computation for the XOR cipher
+ * <p>
  * Attributes:
- *
- *
+ * -xCipherInt: int[]
+ * -xorKey: int
+ * <p>
  * Methods:
+ * +runCipher(int[]): int[]
+ * +getXCipherInt(): int[]
  ***********************************/
-//public class PermutationCipher extends EmptyCipher {
-//    private int[] pCipherInt;
-//@Override
-//    public int[] runCipher(int[] userInAsNum) {
-//        pCipherInt = new int[userInAsNum.length];
-//        for (int i = 0; i < userInAsNum.length; i++){
-//
-//        }
-//        return pCipherInt;
-//    }
-//    public int[] getpCipherInt(){return pCipherInt;}
-//}
+public class XORCipher extends EmptyCipher {
+    private int[] xCipherInt;
+
+    @Override
+    public int[] runCipher(int[] userInAsNum) {
+        xCipherInt = new int[userInAsNum.length];
+        for (int i = 0; i < xCipherInt.length; i++) {
+            int xorKey = 14;
+            xCipherInt[i] = (userInAsNum[i] ^ xorKey) % 36;
+        }
+        return xCipherInt;
+    }
+
+    public int[] getXCipherInt() {
+        return xCipherInt;
+    }
+}
