@@ -5,13 +5,13 @@
  * Created: 3/25/2024
  * Modified: 4/5/2024
  * Purpose: Acts as a database class for alphabet information. Also handles file I/O.
- *
+ * <p>
  * Attributes:
  * -alphabet: char[]
  * -stringAsChar: char[]
  * -stringAsNum: int[]
  * -CipherText: char[]
- *
+ * <p>
  * Methods:
  * +initArray(int): void
  * +setStringAsChar(char[]): void
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Alphabet {
-    private final char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+    private final char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
     private char[] stringAsChar;
     private int[] stringAsNum;
 
@@ -59,8 +59,6 @@ public class Alphabet {
                 }
             }
         }
-//       for (int i : getStringAsNum()) // Used for testing purposes to show what is being printed.
-//            System.out.print(i);
     }
 
     public char[] numToLetter(int[] intArray) {
@@ -82,7 +80,6 @@ public class Alphabet {
     }
 
     public String parseDataFromFile(String filename) {
-        RunEncoder re = new RunEncoder();
         ArrayList<String> data = getInput(filename);
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i) != null) {
@@ -94,7 +91,6 @@ public class Alphabet {
 
     private ArrayList<String> getInput(String filename) {
         ArrayList<String> data = new ArrayList<>();
-        RunEncoder re = new RunEncoder();
         try {
             File file = new File(filename);
             Scanner sc = new Scanner(file);
