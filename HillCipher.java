@@ -5,61 +5,68 @@
  * Created: 3/25/24
  * Modified: 3/29/24
  * Purpose: will hold the math and computation for the Hill cipher
- *
- *
+ * <p>
  * Attributes:
- *
- *
+ * -keyMatrix: int[][]
+ * -hCipher: int[]
+ * <p>
  * Methods:
+ * +runCipher(int[]): int[]
+ * -encrypt: void
+ * +getHCipher: int[]
  ***********************************/
+import java.util.Arrays;
 public class HillCipher extends EmptyCipher {
-        int[][] keyMatrix = {{2, 14}, {3, 4}};
-        private int[] hCipher;
+    int[][] keyMatrix = {{2, 7}, {5, 22}};
+    private int[] hCipher;
 
-        @Override
-        public int[] runCipher(int[] userInAsNum) {
-            hCipher = new int[userInAsNum.length]; // This needs to be a 2d array (2 Columns by infinite length)
-            int halfLength = (int) (Math.floor(userInAsNum.length / 2) + 1);
-            int[][] messageVector = new int[halfLength][2]; // set this = to hCipher
-            int[][] cipherMatrix = new int[halfLength][2];
+    @Override
+    public int[] runCipher(int[] userInAsNum) {
+        hCipher = new int[userInAsNum.length];
+        int halfLength = userInAsNum.length / 2 + 1;
+        int[][] messageVector = new int[2][halfLength];
+        int[][] cipherMatrix = new int[2][halfLength];
 
-            for (int j = 0; j < halfLength; j++) {
-                for (int i = 0; i < halfLength; i++) {
-                    messageVector[i][0] = userInAsNum[j++];
-                    if (userInAsNum.length == halfLength * 2) {
-                        messageVector[i][1] = userInAsNum[j++];
-                    }
+        int index = 0;
+        for (int j = 0; j < halfLength; j++) {
+            for (int i = 0; i < 2; i++) {
+                if (index < userInAsNum.length) {
+                    messageVector[i][j] = userInAsNum[index];
+                    index++;
                 }
-            }
-            encrypt(cipherMatrix, keyMatrix, messageVector);
 
-            for (int j = 0; j < halfLength; j++) {
-                for (int i = 0; i < halfLength; i++) {
-                    hCipher[j++] = cipherMatrix[i][0];
-                    if (userInAsNum.length == halfLength * 2) {
-                        hCipher[j++] = cipherMatrix[i][1];
-                    }
-                }
             }
-
-            return hCipher;
         }
-
-        private void encrypt(int cipherMatrix[][], int keyMatrix[][], int messageVector[][]) {
-            int x, i, j;
-            for (i = 0; i < 2; i++) {
-                for (j = 0; j < cipherMatrix[i].length; j++) {
-                    cipherMatrix[i][j] = 0;
-                    for (x = 0; x < 2; x++) {
-                        cipherMatrix[i][j] += keyMatrix[i][x] * messageVector[x][j];
-                    }
-                    cipherMatrix[i][j] = cipherMatrix[i][j] % 37;
-                    //System.out.println(cipherMatrix[i][j]);
+        //System.out.println(Arrays.deepToString(messageVector));
+        encrypt(cipherMatrix, keyMatrix, messageVector, halfLength);
+        //System.out.println(Arrays.deepToString(cipherMatrix));
+        int index2 = 0;
+        for (int j = 0; j < halfLength; j++) {
+            for (int i = 0; i < 2; i++) {
+                if (index2 < hCipher.length) {
+                    hCipher[index2] = cipherMatrix[i][j];
+                    index2++;
                 }
             }
         }
+        System.out.println((Arrays.toString(hCipher)));
+        return hCipher;
+    }
 
-        public int[] gethCipher() {
-            return hCipher;
+    private void encrypt(int[][] cipherMatrix, int[][] keyMatrix, int[][] messageVector, int halfLength) {
+        int x, i, j;
+        for (i = 0; i < 2; i++) {
+            for (j = 0; j < halfLength; j++) {
+                cipherMatrix[i][j] = 0;
+                for (x = 0; x < 2; x++) {
+                    cipherMatrix[i][j] += keyMatrix[i][x] * messageVector[x][j];
+                }
+                cipherMatrix[i][j] = cipherMatrix[i][j] % 36;
+            }
         }
     }
+
+    public int[] getHCipher() {
+        return hCipher;
+    }
+}
