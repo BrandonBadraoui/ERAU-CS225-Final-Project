@@ -4,17 +4,13 @@
  * Collaborators:
  * Created: 3/25/2024
  * Modified: 4/5/2024
- * Purpose: This is the parent class for all of the types of ciphers.
- *
- *
+ * Purpose: This is the parent class for all the types of ciphers.
+ * <p>
  * Attributes:
- * +int[]: abstract
- *
- *
+ * <p>
  * Methods:
+ * +int[]: abstract
  ***********************************/
 public abstract class EmptyCipher {
     public abstract int[] runCipher(int[] userInAsNum);
 }
-//Do overwrite thing with blank methods
-// Each class will have its own math method
