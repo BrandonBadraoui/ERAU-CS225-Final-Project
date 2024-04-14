@@ -3,17 +3,19 @@
  * Author: Brandon Badraoui
  * Collaborators:
  * Created: 3/25/2024
- * Modified: 4/5/2024
+ * Modified: 4/10/24
  * Purpose: Facilitates the running of the encoder program.
- *
+ * <p>
  * Attributes:
  * -uiCheck: String
  * -userInput: String
  * -selectedCipher: int
  * -typeImport: int
- *
+ * <p>
  * Methods:
  * +main(String[] args): void
+ * -runType1(int): void
+ * -runType2(int): void
  * -typeStringCheck(): void
  * -typeString(): void
  * -getCipherUserInput(String): int
@@ -21,6 +23,7 @@
  * +getUserInput(): String
  * +setTypeImport(int): void
  ***********************************/
+
 import java.util.Scanner;
 
 public class RunEncoder {
@@ -31,64 +34,75 @@ public class RunEncoder {
 
     public static void main(String[] args) {
         RunEncoder run = new RunEncoder();
-        Alphabet al = new Alphabet();
-        CaesarCipher cc = new CaesarCipher();
-//        PermutationCipher pc = new PermutationCipher();
-        HillCipher hc = new HillCipher();
-        run.selectedCipher = run.getCipherUserInput("\nHello, welcome to the Badraoui Encryption Software!\n" + "What Cipher would you like to select?" + "\n1.Caesar Cipher (Weak)\n2.Permutation Cipher (Moderate)\n3.Hill Cipher (Strong)");
+        run.selectedCipher = run.getCipherUserInput("\nHello, welcome to the Badraoui Encryption Software!\nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.XOR Cipher (Moderate)\n3.Hill Cipher (Strong)");
         run.setTypeImport(run.getTypeImport("\nWould you like to type a string or import a file?\n1.Type a string\n2.Import a file"));
         if (run.typeImport == 1) {
-            do {
-                run.typeString();
-                run.typeStringCheck();
-            } while (run.uiCheck.equals("N"));
-            if (run.selectedCipher == 1) {
-                al.runAlpha(run.typeImport, run.getUserInput());
-                cc.runCipher(al.getStringAsNum());
-                char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
-                System.out.print("Encrypted String: ");
-                System.out.println(CipheredText);
-            }
-//            if (run.selectedCipher == 2) {
-//                al.runAlpha(run.typeImport, run.getUserInput());
-//                pc.runCipher(al.getStringAsNum());
-//                char[] CipheredText = al.numToLetter(pc.getpCipherInt());
-//                System.out.print("Encrypted String: ");
-//                System.out.println(CipheredText);
-            //}
-            if (run.selectedCipher == 3) {
-                al.runAlpha(run.typeImport, run.getUserInput());
-                hc.runCipher(al.getStringAsNum());
-                char[] CipheredText = al.numToLetter(hc.gethCipher());
-                System.out.print("Encrypted String: ");
-                System.out.println(CipheredText);
-            }
+            run.runType1(run.selectedCipher);
         } else if (run.typeImport == 2) {
-            if (run.selectedCipher == 1) {
-                al.runAlpha(run.typeImport, "");
-                cc.runCipher(al.getStringAsNum());
-                char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
-                System.out.print("Encrypted String: ");
-                System.out.println(CipheredText);
-            }
-//            if (run.selectedCipher == 2) {
-//                al.runAlpha(run.typeImport, "");
-//                pc.runCipher(al.getStringAsNum());
-//                char[] CipheredText = al.numToLetter(pc.getpCipherInt());
-//                System.out.print("Encrypted String: ");
-//                System.out.println(CipheredText);
-//
-//            }
-            if (run.selectedCipher == 3) {
-                al.runAlpha(run.typeImport, "");
-                hc.runCipher(al.getStringAsNum());
-                char[] CipheredText = al.numToLetter(hc.gethCipher());
-                System.out.print("Encrypted String: ");
-                System.out.println(CipheredText);
+            run.runType2(run.selectedCipher);
+        }
+    }
 
-            }
+    private void runType1(int selectedCipher) {
+        Alphabet al = new Alphabet();
+        CaesarCipher cc = new CaesarCipher();
+        XORCipher xc = new XORCipher();
+        HillCipher hc = new HillCipher();
+        do {
+            typeString();
+            typeStringCheck();
+        } while (uiCheck.equals("N"));
+        if (selectedCipher == 1) {
+            al.runAlpha(typeImport, getUserInput());
+            cc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
+        }
+        if (selectedCipher == 2) {
+            al.runAlpha(typeImport, getUserInput());
+            xc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(xc.getXCipherInt());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
+        }
+        if (selectedCipher == 3) {
+            al.runAlpha(typeImport, getUserInput());
+            hc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(hc.getHCipher());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
         }
 
+    }
+
+    private void runType2(int selectedCipher) {
+        Alphabet al = new Alphabet();
+        CaesarCipher cc = new CaesarCipher();
+        XORCipher xc = new XORCipher();
+        HillCipher hc = new HillCipher();
+        if (selectedCipher == 1) {
+            al.runAlpha(typeImport, "");
+            cc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
+        }
+        if (selectedCipher == 2) {
+            al.runAlpha(typeImport, "");
+            xc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(xc.getXCipherInt());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
+
+        }
+        if (selectedCipher == 3) {
+            al.runAlpha(typeImport, "");
+            hc.runCipher(al.getStringAsNum());
+            char[] CipheredText = al.numToLetter(hc.getHCipher());
+            System.out.print("Encrypted String: ");
+            System.out.println(CipheredText);
+        }
     }
 
     private void typeStringCheck() {
@@ -111,14 +125,11 @@ public class RunEncoder {
                 Scanner sc = new Scanner(System.in);
                 ciphSelect = sc.nextInt();
                 if (ciphSelect > 3 || ciphSelect <= 0) {
-                    prompt = "Incorrect input, please try again." +
-                            "\nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.Permutation Cipher (Moderate)\n3.Hill Cipher (Strong)";
+                    prompt = "Incorrect input, please try again. \nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.XOR Cipher (Moderate)\n3.Hill Cipher (Strong)";
                     ciphSelect = -1;
                 }
             } catch (Exception e) {
-                prompt = "Incorrect input, please try again." +
-                        "\nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.Permutation Cipher (Moderate)\n3.Hill Cipher (Strong)";
-                ciphSelect = -1;
+                prompt = "Incorrect input, please try again. \nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.XOR Cipher (Moderate)\n3.Hill Cipher (Strong)";
             }
         }
         return ciphSelect;
@@ -137,7 +148,6 @@ public class RunEncoder {
                 }
             } catch (Exception e) {
                 prompt = "Incorrect input, please try again.\nWould you like to type a string or import a file?\n1.Type a string\n2.Import a file";
-                typeSelect = -1;
             }
         }
         return typeSelect;
@@ -151,4 +161,3 @@ public class RunEncoder {
         this.typeImport = typeImport;
     }
 }
-
