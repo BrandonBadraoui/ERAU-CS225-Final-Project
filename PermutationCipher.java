@@ -3,7 +3,7 @@
  * Author: Brandon Badraoui
  * Collaborators:
  * Created: 4/11/24
- * Modified: 4/11/24
+ * Modified: 4/14/24
  * Purpose: will hold the math and computation for the XOR cipher
  * <p>
  * Attributes:
