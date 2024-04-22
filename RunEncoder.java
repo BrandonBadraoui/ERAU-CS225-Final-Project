@@ -3,8 +3,8 @@
  * Author: Brandon Badraoui
  * Collaborators:
  * Created: 3/25/2024
- * Modified: 4/10/24
- * Purpose: Facilitates the running of the encoder program.
+ * Modified: 4/14/24
+ * Purpose: Facilitates the running of the encoder program. Acts as an application class
  * <p>
  * Attributes:
  * -uiCheck: String
@@ -24,6 +24,8 @@
  * +setTypeImport(int): void
  ***********************************/
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class RunEncoder {
@@ -33,17 +35,24 @@ public class RunEncoder {
     private int typeImport;
 
     public static void main(String[] args) {
+        int runAgain = 0;
         RunEncoder run = new RunEncoder();
-        run.selectedCipher = run.getCipherUserInput("\nHello, welcome to the Badraoui Encryption Software!\nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.XOR Cipher (Moderate)\n3.Hill Cipher (Strong)");
-        run.setTypeImport(run.getTypeImport("\nWould you like to type a string or import a file?\n1.Type a string\n2.Import a file"));
-        if (run.typeImport == 1) {
-            run.runType1(run.selectedCipher);
-        } else if (run.typeImport == 2) {
-            run.runType2(run.selectedCipher);
+        do {
+
+            run.selectedCipher = run.getCipherUserInput("\nHello, welcome to the Badraoui Encryption Software!\nWhat Cipher would you like to select?\n1.Caesar Cipher (Weak)\n2.XOR Cipher (Moderate)\n3.Hill Cipher (Strong)");
+            run.setTypeImport(run.getTypeImport("\nWould you like to type a string or import a file?\n1.Type a string\n2.Import a file"));
+            if (run.typeImport == 1) {
+                run.runType1(run.selectedCipher);
+            } else if (run.typeImport == 2) {
+                run.runType2(run.selectedCipher);
+            }
+            runAgain = run.checkRunAgain("Would you like to encrypt again? (Type either 1 or 2)\n1.No\n2.Yes");
         }
+        while (runAgain == 2);
     }
 
     private void runType1(int selectedCipher) {
+        Path path = Paths.get("EncryptedString.txt");
         Alphabet al = new Alphabet();
         CaesarCipher cc = new CaesarCipher();
         XORCipher xc = new XORCipher();
@@ -56,27 +65,32 @@ public class RunEncoder {
             al.runAlpha(typeImport, getUserInput());
             cc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (Caesar): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
         }
         if (selectedCipher == 2) {
             al.runAlpha(typeImport, getUserInput());
             xc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(xc.getXCipherInt());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (XOR): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
+
         }
         if (selectedCipher == 3) {
             al.runAlpha(typeImport, getUserInput());
             hc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(hc.getHCipher());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (Hill): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
         }
-
+        System.out.println("Your file is located at: " + path.toAbsolutePath() + "\n");
     }
 
     private void runType2(int selectedCipher) {
+        Path path = Paths.get("EncryptedString.txt");
         Alphabet al = new Alphabet();
         CaesarCipher cc = new CaesarCipher();
         XORCipher xc = new XORCipher();
@@ -85,24 +99,44 @@ public class RunEncoder {
             al.runAlpha(typeImport, "");
             cc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(cc.getCcCipherInt());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (Caesar): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
         }
         if (selectedCipher == 2) {
             al.runAlpha(typeImport, "");
             xc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(xc.getXCipherInt());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (XOR): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
 
         }
         if (selectedCipher == 3) {
             al.runAlpha(typeImport, "");
             hc.runCipher(al.getStringAsNum());
             char[] CipheredText = al.numToLetter(hc.getHCipher());
-            System.out.print("Encrypted String: ");
+            System.out.print("Encrypted String (Hill): ");
             System.out.println(CipheredText);
+            al.outputToFile("EncryptedString.txt", CipheredText);
         }
+        System.out.println("Your file is located at: " + path.toAbsolutePath() + "\n");
+    }
+
+    private int checkRunAgain(String prompt) {
+        int runAgain = -1;
+        try {
+            System.out.println(prompt);
+            Scanner sc = new Scanner(System.in);
+            runAgain = sc.nextInt();
+            if (runAgain > 2 || runAgain <= 0) {
+                prompt = "Would you like to encrypt again? (Type either 1 or 2)\n1.No\n2.Yes";
+                runAgain = -1;
+            }
+        } catch (Exception e) {
+            prompt = "Incorrect input, please try again.\nWould you like to encrypt again? (Type either 1 or 2) \n1.No \n2.Yes";
+        }
+        return runAgain;
     }
 
     private void typeStringCheck() {
