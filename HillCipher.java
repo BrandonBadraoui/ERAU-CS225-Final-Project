@@ -3,7 +3,7 @@
  * Author: Brandon Badraoui
  * Collaborators:
  * Created: 3/25/24
- * Modified: 3/29/24
+ * Modified: 4/14/24
  * Purpose: will hold the math and computation for the Hill cipher
  * <p>
  * Attributes:
@@ -15,9 +15,8 @@
  * -encrypt: void
  * +getHCipher: int[]
  ***********************************/
-import java.util.Arrays;
 public class HillCipher extends EmptyCipher {
-    int[][] keyMatrix = {{2, 7}, {5, 22}};
+    private final int[][] keyMatrix = {{2, 7}, {5, 22}};
     private int[] hCipher;
 
     @Override
@@ -49,7 +48,7 @@ public class HillCipher extends EmptyCipher {
                 }
             }
         }
-        System.out.println((Arrays.toString(hCipher)));
+        //System.out.println((Arrays.toString(hCipher)));
         return hCipher;
     }
 
