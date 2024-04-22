@@ -3,7 +3,7 @@
  * Author: Brandon Badraoui
  * Collaborators:
  * Created: 3/25/2024
- * Modified: 4/5/2024
+ * Modified: 4/17/2024
  * Purpose: Acts as a database class for alphabet information. Also handles file I/O.
  * <p>
  * Attributes:
@@ -13,27 +13,30 @@
  * -CipherText: char[]
  * <p>
  * Methods:
- * +initArray(int): void
+ * -initArray(int): void
  * +setStringAsChar(char[]): void
  * +getStringAsChar(): char[]
  * +getStringAsNum(): int[]
- * +letterToNum(): void
+ * -letterToNum(): void
  * +numToLetter(int[]): char[]
  * +runAlpha(int,String): void
- * +parseDataFromFile(String): String
+ * -parseDataFromFile(String): String
  * -getInput(String): ArrayList<String>
+ * +outputToFile(String,Int[]): void
  ***********************************/
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Alphabet {
-    private final char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+    private final char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
     private char[] stringAsChar;
     private int[] stringAsNum;
 
-    public void initArray(int stringAsNum) {
+    private void initArray(int stringAsNum) {
         this.stringAsNum = new int[stringAsNum];
     }
 
@@ -49,7 +52,7 @@ public class Alphabet {
         return stringAsNum;
     }
 
-    public void letterToNum() {
+    private void letterToNum() {
         int x = 0;
         for (int i = 0; i < stringAsChar.length; i++) {
             for (int j = 0; j < alphabet.length; j++) {
@@ -79,7 +82,19 @@ public class Alphabet {
         letterToNum();
     }
 
-    public String parseDataFromFile(String filename) {
+    public void outputToFile(String filename, char[] cipheredText) {
+        try {
+            File file = new File(filename);
+            PrintWriter pw = new PrintWriter(file);
+            pw.print("Your encrypted string is: ");
+            pw.print(cipheredText);
+            pw.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String parseDataFromFile(String filename) {
         ArrayList<String> data = getInput(filename);
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i) != null) {
